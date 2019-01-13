@@ -36,13 +36,15 @@ class PlaylistAdapter(
     class PlaylistViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var songName: TextView = view.song_name
         var albumCover: ImageView = view.album_cover
+        var artistName: TextView = view.artist_name
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val song = Gson().fromJson(songs[position], Track::class.java)
 
-        Picasso.with(context).load(song.album.images[0].url).into(holder.albumCover)
+        Picasso.with(context).load(song.album.images[0].url).resize(200, 200).into(holder.albumCover)
 
         holder.songName.text = song.name
+        holder.artistName.text = song.album.artist.name
     }
 }
