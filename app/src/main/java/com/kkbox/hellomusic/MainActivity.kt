@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Contacts
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
 import com.kkbox.openapideveloper.api.Api
 import com.kkbox.openapideveloper.auth.Auth
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,8 +60,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getAllHitsPlaylist(): JsonArray {
         val jsonArray = JsonArray()
-//        val territories = arrayListOf("TW", "JA", "HK", "SG", "MY")
-        val territories = arrayListOf("TW")
+        val territories = arrayListOf("TW", "JP", "HK", "SG", "MY")
+//        val territories = arrayListOf("TW")
 
         for (territory in territories) {
             jsonArray.addAll(getTerritoryHitsPlaylist(territory))
@@ -71,8 +74,13 @@ class MainActivity : AppCompatActivity() {
         val api = Api(accessToken, territory, context)
 
         val hitsPlaylistResult = api.hitsPlaylistFetcher.fetchAllNewHitsPlaylists().get()
-
-        return hitsPlaylistResult.getAsJsonArray("data")
+        var data = JsonArray()
+        try{
+            data = hitsPlaylistResult.getAsJsonArray("data")
+        }catch (e: Exception){
+            Log.d("playlistError",e.toString())
+        }
+        return data
     }
 
     private fun getAccessToken(): String {
