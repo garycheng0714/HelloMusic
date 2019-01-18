@@ -45,11 +45,11 @@ class HotPlaylistAdapter(
         val size = Point()
         wm.defaultDisplay.getSize(size)
 
-        Picasso.with(context).load(hotPlaylist.images[2].url).into(holder.cover)
+        Picasso.with(context).load(hotPlaylist.images[1].url).into(holder.cover)
 
         holder.cover.setOnClickListener { listener.onItemClick(hotPlaylist.id) }
 
-        val playlistName = hotPlaylist.title.substringBefore("(")
+        val playlistName = hotPlaylist.title.substringBefore("(").trim()
         val curatorName = hotPlaylist.owner.name
 
         holder.title.text = playlistName
