@@ -8,6 +8,7 @@ import android.provider.Contacts
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.Menu
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
+
         context = baseContext
     }
 
@@ -40,9 +43,10 @@ class MainActivity : AppCompatActivity() {
         accessToken = getAccessToken()
 
         val hotPlaylistListener = object : OnItemClickListener {
-            override fun onItemClick(playlistId: String) {
+            override fun onItemClick(playlistId: String, playlistTitle: String) {
                 val startIntent  = Intent(context, PlaylistActivity::class.java).apply {
                     putExtra(PlaylistActivity.HOT_PLAYLIST_ID, playlistId)
+                    putExtra(PlaylistActivity.HOT_PLAULIST_TITLE, playlistTitle)
                     putExtra(ACCESS_TOKEN, accessToken)
                 }
 
@@ -61,7 +65,6 @@ class MainActivity : AppCompatActivity() {
     private fun getAllHitsPlaylist(): JsonArray {
         val jsonArray = JsonArray()
         val territories = arrayListOf("TW", "JP", "HK", "SG", "MY")
-//        val territories = arrayListOf("TW")
 
         for (territory in territories) {
             jsonArray.addAll(getTerritoryHitsPlaylist(territory))
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         val hitsPlaylistResult = api.hitsPlaylistFetcher.fetchAllNewHitsPlaylists().get()
         var data = JsonArray()
+
         try{
             data = hitsPlaylistResult.getAsJsonArray("data")
         }catch (e: Exception){

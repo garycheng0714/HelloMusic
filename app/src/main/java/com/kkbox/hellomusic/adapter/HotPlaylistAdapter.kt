@@ -41,16 +41,16 @@ class HotPlaylistAdapter(
     override fun onBindViewHolder(holder: HotPlaylistViewHolder, position: Int) {
         val hotPlaylist = Gson().fromJson(items[position], HotPlaylist::class.java)
 
+        // set image
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val size = Point()
         wm.defaultDisplay.getSize(size)
-
         Picasso.with(context).load(hotPlaylist.images[1].url).into(holder.cover)
-
-        holder.cover.setOnClickListener { listener.onItemClick(hotPlaylist.id) }
 
         val playlistName = hotPlaylist.title.substringBefore("(").trim()
         val curatorName = hotPlaylist.owner.name
+
+        holder.cover.setOnClickListener { listener.onItemClick(hotPlaylist.id, playlistName) }
 
         holder.title.text = playlistName
         holder.curatorName.text = curatorName
@@ -65,6 +65,6 @@ class HotPlaylistAdapter(
 }
 
 interface OnItemClickListener {
-    fun onItemClick(playlistId: String)
+    fun onItemClick(playlistId: String, playlistTitle: String)
 }
 
