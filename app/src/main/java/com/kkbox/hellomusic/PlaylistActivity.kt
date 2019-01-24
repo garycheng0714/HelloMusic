@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.kkbox.hellomusic.adapter.PlaylistAdapter
 import com.kkbox.openapideveloper.api.Api
 import kotlinx.android.synthetic.main.activity_playlist.*
@@ -62,21 +63,28 @@ class PlaylistActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
         R.id.action_sort_by_artist -> {
             // sort by artist
+            showToast(R.string.sort_by_artist)
             true
         }
 
         R.id.action_sort_by_date -> {
             // sort by date
+            showToast(R.string.sort_by_date)
             true
         }
 
         R.id.action_sort_by_song -> {
             // sort by song
+            showToast(R.string.sort_by_song)
             true
         }
 
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showToast(resId: Int) {
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
     }
 }

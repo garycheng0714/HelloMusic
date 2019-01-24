@@ -4,11 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Contacts
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.Menu
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
