@@ -9,18 +9,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Track
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.song_info.view.*
 
 class PlaylistAdapter(
-    private val songs: JsonArray,
+    private var songs: ArrayList<JsonElement>,
     private val context: Context
 ): RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>() {
 
+    fun update (songsArray: ArrayList<JsonElement>){
+        songs = songsArray
+        this.notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return songs.size()
+        return songs.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): PlaylistViewHolder {

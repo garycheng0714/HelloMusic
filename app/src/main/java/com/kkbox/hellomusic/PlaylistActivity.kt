@@ -1,25 +1,36 @@
 package com.kkbox.hellomusic
 
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import android.util.Log
 import com.kkbox.hellomusic.adapter.PlaylistAdapter
 import com.kkbox.openapideveloper.api.Api
 import kotlinx.android.synthetic.main.activity_playlist.*
+import java.util.*
+import org.json.JSONException
+import com.google.gson.JsonElement
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.collections.ArrayList
+
 
 class PlaylistActivity : AppCompatActivity() {
 
     companion object {
         const val HOT_PLAYLIST_ID    = "hot_playlist_id"
         const val HOT_PLAULIST_TITLE = "hot_playlist_title"
+        var sortArray = ArrayList<JsonElement>()
     }
 
     private lateinit var accessToken: String
-
+    private lateinit var adapter: PlaylistAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist)
@@ -37,17 +48,33 @@ class PlaylistActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        sortArray.clear()
+
         val api = Api(accessToken, "TW", baseContext)
         val playlistId = intent.getStringExtra(HOT_PLAYLIST_ID)
 
         val tracksResult = api.hitsPlaylistFetcher.setPlaylistId(playlistId).fetchMetadata().get()
 
+        Log.d("trackResult", tracksResult.getAsJsonObject("tracks").getAsJsonArray("data").get(0).toString())
         playlist_recyclerview.layoutManager = LinearLayoutManager(baseContext)
 
-        playlist_recyclerview.adapter = PlaylistAdapter(
-            tracksResult.getAsJsonObject("tracks").getAsJsonArray("data"),
+        val trackArray = tracksResult.getAsJsonObject("tracks").getAsJsonArray("data")
+        for (i in 0 until trackArray.size()) {
+            try {
+                sortArray.add(trackArray[i])
+            } catch (e: JSONException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+
+        }
+
+        adapter = PlaylistAdapter(
+            sortArray,
             baseContext
         )
+
+        playlist_recyclerview.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -63,18 +90,24 @@ class PlaylistActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId) {
         R.id.action_sort_by_artist -> {
             // sort by artist
+            sortByArtist(sortArray)
+            adapter.update(sortArray)
             showToast(R.string.sort_by_artist)
             true
         }
 
         R.id.action_sort_by_date -> {
             // sort by date
+            sortByDate(sortArray)
+            adapter.update(sortArray)
             showToast(R.string.sort_by_date)
             true
         }
 
         R.id.action_sort_by_song -> {
             // sort by song
+            sortBySongName(sortArray)
+            adapter.update(sortArray)
             showToast(R.string.sort_by_song)
             true
         }
@@ -86,5 +119,58 @@ class PlaylistActivity : AppCompatActivity() {
 
     private fun showToast(resId: Int) {
         Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun sortBySongName(array:ArrayList<JsonElement>){
+        Collections.sort(array, object : Comparator<JsonElement> {
+            override
+            fun compare(lhs: JsonElement, rhs: JsonElement): Int {
+                // TODO Auto-generated method stub
+
+                return try {
+                    lhs.asJsonObject.get("name").toString().compareTo(rhs.asJsonObject.get("name").toString())
+                } catch (e: JSONException) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace()
+                    0
+                }
+            }
+        })
+    }
+
+    private fun sortByArtist(array:ArrayList<JsonElement>){
+        Collections.sort(array, object : Comparator<JsonElement> {
+            override
+            fun compare(lhs: JsonElement, rhs: JsonElement): Int {
+                // TODO Auto-generated method stub
+
+                return try {
+                    lhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString().compareTo(rhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString())
+                } catch (e: JSONException) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace()
+                    0
+                }
+            }
+        })
+    }
+
+    private fun sortByDate(array:ArrayList<JsonElement>){
+        Collections.sort(array, object : Comparator<JsonElement> {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override
+            fun compare(lhs: JsonElement, rhs: JsonElement): Int {
+                val lhsDate = LocalDate.parse(lhs.asJsonObject.get("album").asJsonObject.get("release_date").toString().replace("\"",""), DateTimeFormatter.ISO_DATE)
+                val rhsDate = LocalDate.parse(rhs.asJsonObject.get("album").asJsonObject.get("release_date").toString().replace("\"",""), DateTimeFormatter.ISO_DATE)
+                // TODO Auto-generated method stub
+                return try {
+                    if(lhsDate.isAfter(rhsDate))1 else 0
+                } catch (e: JSONException) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace()
+                    0
+                }
+            }
+        })
     }
 }
