@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import android.util.Log
 import com.kkbox.hellomusic.adapter.PlaylistAdapter
 import com.kkbox.openapideveloper.api.Api
 import kotlinx.android.synthetic.main.activity_playlist.*
@@ -55,7 +54,9 @@ class PlaylistActivity : AppCompatActivity() {
 
         val tracksResult = api.hitsPlaylistFetcher.setPlaylistId(playlistId).fetchMetadata().get()
 
-        Log.d("trackResult", tracksResult.getAsJsonObject("tracks").getAsJsonArray("data").get(0).toString())
+//        for(i in 0..(tracksResult.getAsJsonObject("tracks").getAsJsonArray("data").size()-1)){
+//            Log.d("trackResult", tracksResult.getAsJsonObject("tracks").getAsJsonArray("data").get(i).toString())
+//        }
         playlist_recyclerview.layoutManager = LinearLayoutManager(baseContext)
 
         val trackArray = tracksResult.getAsJsonObject("tracks").getAsJsonArray("data")
@@ -143,7 +144,6 @@ class PlaylistActivity : AppCompatActivity() {
             override
             fun compare(lhs: JsonElement, rhs: JsonElement): Int {
                 // TODO Auto-generated method stub
-
                 return try {
                     lhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString().compareTo(rhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString())
                 } catch (e: JSONException) {
@@ -160,11 +160,25 @@ class PlaylistActivity : AppCompatActivity() {
             @RequiresApi(Build.VERSION_CODES.O)
             override
             fun compare(lhs: JsonElement, rhs: JsonElement): Int {
+                val lhsSongName = lhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString()
+                val rhsSongName = rhs.asJsonObject.get("album").asJsonObject.get("artist").asJsonObject.get("name").toString()
+                val songNameSort  = lhsSongName > rhsSongName
                 val lhsDate = LocalDate.parse(lhs.asJsonObject.get("album").asJsonObject.get("release_date").toString().replace("\"",""), DateTimeFormatter.ISO_DATE)
                 val rhsDate = LocalDate.parse(rhs.asJsonObject.get("album").asJsonObject.get("release_date").toString().replace("\"",""), DateTimeFormatter.ISO_DATE)
+                var flag: Int
+                if(lhsDate.isAfter(rhsDate)){
+                    flag = -1
+                }else if(lhsDate.isEqual(rhsDate)){
+                    flag = if(songNameSort)
+                        -1
+                    else
+                        1
+                }else{
+                    flag = 1
+                }
                 // TODO Auto-generated method stub
                 return try {
-                    if(lhsDate.isAfter(rhsDate))1 else 0
+                    flag
                 } catch (e: JSONException) {
                     // TODO Auto-generated catch block
                     e.printStackTrace()
