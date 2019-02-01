@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content">
 
                 <TextView
-                        android:text="TextView"
+                        android:text="@string/playlist_title"
                         android:textColor="@color/colorPrimary"
                         android:layout_width="match_parent"
                         android:id="@+id/playlist_title"
@@ -46,7 +46,7 @@
                         android:textAlignment="center"/>
 
                 <TextView
-                        android:text="TextView"
+                        android:text="@string/curator_name"
                         android:textColor="@color/colorPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/curator_name"
