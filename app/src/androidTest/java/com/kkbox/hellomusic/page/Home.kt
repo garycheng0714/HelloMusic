@@ -14,6 +14,7 @@ import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.atPosition
 import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.hasText
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.not
 import org.junit.Assert
 
 class Home {
@@ -29,11 +30,11 @@ class Home {
     }
 
     fun checkPlaylistTitleNotEmpty(index: Int) {
-        onView(hitPlaylistRecyclerView).check(matches(atPosition(index, hitPlaylistTitleId, hasText())))
+        onView(hitPlaylistRecyclerView).check(matches(not(atPosition(index, hitPlaylistTitleId, withText(R.string.playlist_title)))))
     }
 
     fun checkPlaylistCuratorNotEmpty(index: Int) {
-        onView(hitPlaylistRecyclerView).check(matches(atPosition(index, hitPlaylistCuratorId, hasText())))
+        onView(hitPlaylistRecyclerView).check(matches(not(atPosition(index, hitPlaylistCuratorId, withText(R.string.curator_name)))))
     }
 
     fun openPlaylist(playlistName: String) {
