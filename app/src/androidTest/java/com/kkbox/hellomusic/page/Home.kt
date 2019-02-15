@@ -9,12 +9,10 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
-import com.kkbox.hellomusic.MainActivity
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.atPosition
-import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.hasText
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.allOf
 import org.junit.Assert
 
 class Home {
@@ -29,12 +27,12 @@ class Home {
         Assert.assertEquals(recyclerView.adapter?.itemCount, expectedNumber)
     }
 
-    fun checkPlaylistTitleNotEmpty(index: Int) {
-        onView(hitPlaylistRecyclerView).check(matches(not(atPosition(index, hitPlaylistTitleId, withText(R.string.playlist_title)))))
+    fun checkPlaylistTitle(index: Int, name: String) {
+        onView(hitPlaylistRecyclerView).check(matches(allOf(atPosition(index, hitPlaylistTitleId, withText(name)), isDisplayed())))
     }
 
-    fun checkPlaylistCuratorNotEmpty(index: Int) {
-        onView(hitPlaylistRecyclerView).check(matches(not(atPosition(index, hitPlaylistCuratorId, withText(R.string.curator_name)))))
+    fun checkCuratorName(index: Int, name: String) {
+        onView(hitPlaylistRecyclerView).check(matches(allOf(atPosition(index, hitPlaylistCuratorId, withText(name)), isDisplayed())))
     }
 
     fun openPlaylist(playlistName: String) {
