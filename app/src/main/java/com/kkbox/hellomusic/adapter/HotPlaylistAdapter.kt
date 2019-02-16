@@ -45,7 +45,7 @@ class HotPlaylistAdapter(
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val size = Point()
         wm.defaultDisplay.getSize(size)
-        Picasso.with(context).load(hotPlaylist.images[1].url).into(holder.cover)
+        Picasso.with(context).load(hotPlaylist.images[2].url).resize(400, 400).into(holder.cover)
 
         val playlistName = hotPlaylist.title.substringBefore("(").trim()
         val curatorName = hotPlaylist.owner.name

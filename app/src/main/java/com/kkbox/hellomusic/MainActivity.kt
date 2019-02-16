@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
@@ -51,9 +52,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val gridLayoutManager = GridLayoutManager(context, 2)
+//        val gridLayoutManager = GridLayoutManager(context, 2)
 
-        hit_playlist_recyclerview.layoutManager = gridLayoutManager
+//        hit_playlist_recyclerview.layoutManager = gridLayoutManager
+        hit_playlist_recyclerview.layoutManager = LinearLayoutManager(context)
 
         hit_playlist_recyclerview.adapter =
                 HotPlaylistAdapter(getAllHitsPlaylist(), hotPlaylistListener, context)
