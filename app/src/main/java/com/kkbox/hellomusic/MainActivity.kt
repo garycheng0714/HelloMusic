@@ -4,12 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
+import com.kkbox.hellomusic.data.HotPlaylist
 import com.kkbox.openapideveloper.api.Api
 import com.kkbox.openapideveloper.auth.Auth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -61,29 +62,36 @@ class MainActivity : AppCompatActivity() {
                 HotPlaylistAdapter(getAllHitsPlaylist(), hotPlaylistListener, context)
     }
 
-    private fun getAllHitsPlaylist(): JsonArray {
-        val jsonArray = JsonArray()
+    private fun getAllHitsPlaylist(): ArrayList<HotPlaylist> {
+        val hotPlaylistList: ArrayList<HotPlaylist> = arrayListOf()
         val territories = arrayListOf("TW", "JP", "HK", "SG", "MY")
 
         for (territory in territories) {
-            jsonArray.addAll(getTerritoryHitsPlaylist(territory))
+            hotPlaylistList.addAll(getTerritoryHitsPlaylist(territory))
         }
 
-        return jsonArray
+        return hotPlaylistList
     }
 
-    private fun getTerritoryHitsPlaylist(territory: String): JsonArray {
+    private fun getTerritoryHitsPlaylist(territory: String): ArrayList<HotPlaylist> {
         val api = Api(accessToken, territory, context)
+        val hotPlaylists: ArrayList<HotPlaylist> = arrayListOf()
 
         val hitsPlaylistResult = api.hitsPlaylistFetcher.fetchAllNewHitsPlaylists().get()
-        var data = JsonArray()
+        var hotPlaylistJsonArray = JsonArray()
 
         try{
-            data = hitsPlaylistResult.getAsJsonArray("data")
+            hotPlaylistJsonArray = hitsPlaylistResult.getAsJsonArray("data")
         }catch (e: Exception){
             Log.d("playlistError",e.toString())
         }
-        return data
+
+        for (index in 0 until hotPlaylistJsonArray.size()) {
+            val hotPlaylist = Gson().fromJson(hotPlaylistJsonArray[index], HotPlaylist::class.java)
+            hotPlaylists.add(hotPlaylist)
+        }
+
+        return hotPlaylists
     }
 
     private fun getAccessToken(): String {

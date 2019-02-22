@@ -16,14 +16,14 @@ import kotlinx.android.synthetic.main.hot_playlist_item_card_view.view.*
 
 
 class HotPlaylistAdapter(
-    private val items: JsonArray,
+    private val items: ArrayList<HotPlaylist>,
     private val listener: OnItemClickListener,
     private val context: Context
 ): RecyclerView.Adapter<HotPlaylistAdapter.HotPlaylistViewHolder>() {
 
     // Gets the number of animals in the list
     override fun getItemCount(): Int {
-        return items.size()
+        return items.size
     }
 
     // Inflates the item views
@@ -37,14 +37,18 @@ class HotPlaylistAdapter(
         )
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     // Binds each animal in the ArrayList to a view
     override fun onBindViewHolder(holder: HotPlaylistViewHolder, position: Int) {
-        val hotPlaylist = Gson().fromJson(items[position], HotPlaylist::class.java)
+        val hotPlaylist = items[position]
 
         // set image
-        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val size = Point()
-        wm.defaultDisplay.getSize(size)
+//        val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+//        val size = Point()
+//        wm.defaultDisplay.getSize(size)
         Picasso.with(context).load(hotPlaylist.images[2].url).resize(400, 400).into(holder.cover)
 
         val playlistName = hotPlaylist.title.substringBefore("(").trim()
