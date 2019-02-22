@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.squareup.picasso.Picasso
 import android.view.WindowManager
 import com.kkbox.hellomusic.R

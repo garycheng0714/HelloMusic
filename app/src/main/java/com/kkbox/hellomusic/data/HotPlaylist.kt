@@ -25,24 +25,3 @@ data class HotPlaylist(
     @SerializedName("owner")
     val owner: HotPlaylistOwner
 )
-
-data class CoverImage (
-
-    @SerializedName("height")
-    val height: String,
-
-    @SerializedName("width")
-    val width: String,
-
-    @SerializedName("url")
-    val url: String
-)
-
-data class HotPlaylistOwner (
-
-    @SerializedName("id")
-    val id: String,
-
-    @SerializedName("name")
-    val name: String
-)

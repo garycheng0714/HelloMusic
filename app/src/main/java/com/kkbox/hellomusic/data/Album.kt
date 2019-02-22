@@ -2,7 +2,7 @@ package com.kkbox.hellomusic.data
 
 import com.google.gson.annotations.SerializedName
 
-data class Track (
+data class Album(
 
     @SerializedName("id")
     val id: String,
@@ -10,21 +10,21 @@ data class Track (
     @SerializedName("name")
     val name: String,
 
-    @SerializedName("duration")
-    val duration: Int,
-
     @SerializedName("url")
     val url: String,
-
-    @SerializedName("track_number")
-    val track_number: Int,
 
     @SerializedName("explicitness")
     val explicitness: Boolean,
 
     @SerializedName("available_territories")
-    val available_territories: ArrayList<String>,
+    val available_territories: List<String>,
 
-    @SerializedName("album")
-    val album: Album
+    @SerializedName("release_date")
+    val release_date: String,
+
+    @SerializedName("images")
+    val images: List<CoverImage>,
+
+    @SerializedName("artist")
+    val artist: Artist
 )

@@ -9,7 +9,9 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
+import com.kkbox.hellomusic.adapter.NewAlbumAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
+import com.kkbox.hellomusic.data.Album
 import com.kkbox.hellomusic.data.HotPlaylist
 import com.kkbox.openapideveloper.api.Api
 import com.kkbox.openapideveloper.auth.Auth
@@ -60,6 +62,26 @@ class MainActivity : AppCompatActivity() {
 
         hit_playlist_recyclerview.adapter =
                 HotPlaylistAdapter(getAllHitsPlaylist(), hotPlaylistListener, context)
+
+        new_album_recyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        new_album_recyclerview.adapter = NewAlbumAdapter(getNewAlbum(), context)
+    }
+
+    private fun getNewAlbum(): ArrayList<Album> {
+        val albumList: ArrayList<Album> = arrayListOf()
+        val categoryId = "KrdH2LdyUKS8z2aoxX"
+
+        val api = Api(accessToken, "TW", context)
+        val newAlbumResult = api.releaseCategoryFetcher.setCategoryId(categoryId).fetchAlbums(limit = 10).get()
+        val albumJsonArray = newAlbumResult.getAsJsonArray("data")
+
+        for (index in 0 until albumJsonArray.size()) {
+            val album = Gson().fromJson(albumJsonArray[index], Album::class.java)
+            albumList.add(album)
+        }
+
+        return albumList
     }
 
     private fun getAllHitsPlaylist(): ArrayList<HotPlaylist> {
