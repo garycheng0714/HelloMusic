@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.atPosition
+import com.kkbox.hellomusic.viewAction.CustomViewAction.Companion.clickChildView
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.junit.Assert
@@ -43,7 +44,7 @@ class Home {
                         withText(
                             playlistName
                         )
-                    ), click()
+                    ), clickChildView(hitPlaylistTitleId)
                 ))
     }
 }

@@ -53,6 +53,7 @@ class HotPlaylistAdapter(
         val curatorName = hotPlaylist.owner.name
 
         holder.cover.setOnClickListener { listener.onItemClick(hotPlaylist.id, playlistName) }
+        holder.title.setOnClickListener { listener.onItemClick(hotPlaylist.id, playlistName) }
 
         holder.title.text = playlistName
         holder.curatorName.text = curatorName
