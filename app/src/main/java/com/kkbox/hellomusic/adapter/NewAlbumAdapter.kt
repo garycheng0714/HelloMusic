@@ -38,7 +38,7 @@ class NewAlbumAdapter(
         val newAlbum = items[position]
 
         // set image
-        Picasso.with(context).load(newAlbum.images[1].url).into(holder.cover)
+        Picasso.with(context).load(newAlbum.images[2].url).resize(400, 400).into(holder.cover)
 
         val playlistName = newAlbum.name
         val curatorName = newAlbum.artist.name
