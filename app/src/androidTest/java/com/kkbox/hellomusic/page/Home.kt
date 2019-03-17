@@ -25,7 +25,7 @@ class Home {
     fun checkPlaylistNumber(expectedNumber: Int, activity: Activity) {
         val recyclerView: RecyclerView = activity.findViewById(R.id.hit_playlist_recyclerview)
 
-        Assert.assertEquals(recyclerView.adapter?.itemCount, expectedNumber)
+        Assert.assertEquals(recyclerView.adapter!!.itemCount - 1, expectedNumber)
     }
 
     fun checkPlaylistTitle(index: Int, name: String) {

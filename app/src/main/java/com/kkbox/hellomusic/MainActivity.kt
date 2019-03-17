@@ -9,7 +9,6 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
-import com.kkbox.hellomusic.adapter.NewAlbumAdapter
 import com.kkbox.hellomusic.adapter.OnItemClickListener
 import com.kkbox.hellomusic.data.Album
 import com.kkbox.hellomusic.data.HotPlaylist
@@ -28,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var context: Context
     private lateinit var accessToken: String
+    private val territories = arrayListOf("TW", "JP", "HK", "SG", "MY")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +57,22 @@ class MainActivity : AppCompatActivity() {
 
 //        val gridLayoutManager = GridLayoutManager(context, 2)
 
-//        hit_playlist_recyclerview.layoutManager = gridLayoutManager
         hit_playlist_recyclerview.layoutManager = LinearLayoutManager(context)
 
         hit_playlist_recyclerview.adapter =
-                HotPlaylistAdapter(getAllHitsPlaylist(), hotPlaylistListener, context)
+                HotPlaylistAdapter(getData(), hotPlaylistListener, context)
+    }
 
-        new_album_recyclerview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    private fun getData(): ArrayList<Any> {
+        val allData = arrayListOf<Any>()
 
-        new_album_recyclerview.adapter = NewAlbumAdapter(getNewAlbum(), context)
+        allData.add(getNewAlbum())
+
+        for (territory in territories) {
+            allData.addAll(getTerritoryHitsPlaylist(territory))
+        }
+
+        return allData
     }
 
     private fun getNewAlbum(): ArrayList<Album> {
@@ -82,17 +89,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return albumList
-    }
-
-    private fun getAllHitsPlaylist(): ArrayList<HotPlaylist> {
-        val hotPlaylistList: ArrayList<HotPlaylist> = arrayListOf()
-        val territories = arrayListOf("TW", "JP", "HK", "SG", "MY")
-
-        for (territory in territories) {
-            hotPlaylistList.addAll(getTerritoryHitsPlaylist(territory))
-        }
-
-        return hotPlaylistList
     }
 
     private fun getTerritoryHitsPlaylist(territory: String): ArrayList<HotPlaylist> {

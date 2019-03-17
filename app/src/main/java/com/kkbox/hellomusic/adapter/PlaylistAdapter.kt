@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Track

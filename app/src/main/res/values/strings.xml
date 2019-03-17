@@ -11,4 +11,6 @@
     <string name="curator_name">curatorName</string>
     <string name="album_title">albumTitle</string>
     <string name="album_artist">albumArtist</string>
+    <string name="albumRecyclerViewTitle">New Albums</string>
+    <string name="playlistRecyclerViewTitle">Hot Playlists</string>
 </resources>

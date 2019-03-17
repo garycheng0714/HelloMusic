@@ -34,12 +34,12 @@ class HomePageTest {
 
     @Test
     fun playlistHasPlaylistName() {
-        Home().checkPlaylistTitle(0, "華語速爆新歌")
+        Home().checkPlaylistTitle(1, "華語速爆新歌")
     }
 
     @Test
     fun playlistHasCuratorName() {
-        Home().checkCuratorName(0, "KKBOX 華語小編")
+        Home().checkCuratorName(1, "KKBOX 華語小編")
     }
 
     @Test
