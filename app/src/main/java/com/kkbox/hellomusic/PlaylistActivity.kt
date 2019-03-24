@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
 
-class PlaylistActivity : AppCompatActivity() {
+class PlaylistActivity : BasicActivity() {
 
     companion object {
         const val HOT_PLAYLIST_ID    = "hot_playlist_id"
@@ -28,20 +28,12 @@ class PlaylistActivity : AppCompatActivity() {
         var sortArray = ArrayList<JsonElement>()
     }
 
-    private lateinit var accessToken: String
     private lateinit var adapter: PlaylistAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist)
 
-        // https://developer.android.com/training/appbar/setting-up
-        setSupportActionBar(findViewById(R.id.toolbar))
-
-        // https://developer.android.com/training/appbar/up-action
-        // Get a support ActionBar corresponding to this toolbar and enable the Up button
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        accessToken = intent.getStringExtra(MainActivity.ACCESS_TOKEN)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onResume() {

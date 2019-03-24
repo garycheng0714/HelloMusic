@@ -1,11 +1,16 @@
 package com.kkbox.hellomusic.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import com.kkbox.hellomusic.MainActivity
+import com.kkbox.hellomusic.PlaylistActivity
 import com.squareup.picasso.Picasso
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Album
@@ -16,7 +21,7 @@ import kotlinx.android.synthetic.main.new_album_recycler.view.*
 
 class HotPlaylistAdapter(
     private val items: ArrayList<Any>,
-    private val listener: OnItemClickListener,
+    private val accessToken: String,
     private val context: Context
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -41,22 +46,14 @@ class HotPlaylistAdapter(
                     )
                 )
 
-            PLAYLIST_CARD -> return HotPlaylistViewHolder(
-                    LayoutInflater.from(context).inflate(
+            else -> return HotPlaylistViewHolder(
+                LayoutInflater.from(context).inflate(
                     R.layout.hot_playlist_item_card_view,
                     parent,
                     false
                 )
             )
         }
-
-        return HotPlaylistViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.hot_playlist_item_card_view,
-                parent,
-                false
-            )
-        )
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -78,7 +75,7 @@ class HotPlaylistAdapter(
                 holder as NewAlbumViewHolder
 
                 holder.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                holder.recyclerView.adapter = NewAlbumAdapter(newAlbum, context)
+                holder.recyclerView.adapter = NewAlbumAdapter(newAlbum, accessToken, context)
 
                 holder.title.text = context.resources.getText(R.string.albumRecyclerViewTitle)
             }
@@ -92,8 +89,15 @@ class HotPlaylistAdapter(
                 val playlistName = hotPlaylist.title.substringBefore("(").trim()
                 val curatorName = hotPlaylist.owner.name
 
-                holder.cover.setOnClickListener { listener.onItemClick(hotPlaylist.id, playlistName) }
-                holder.title.setOnClickListener { listener.onItemClick(hotPlaylist.id, playlistName) }
+                holder.card.setOnClickListener {
+                    val startIntent  = Intent(context, PlaylistActivity::class.java).apply {
+                        putExtra(PlaylistActivity.HOT_PLAYLIST_ID, hotPlaylist.id)
+                        putExtra(PlaylistActivity.HOT_PLAULIST_TITLE, playlistName)
+                        putExtra(MainActivity.ACCESS_TOKEN, accessToken)
+                    }
+
+                    startActivity(context, startIntent, null)
+                }
 
                 holder.title.text = playlistName
                 holder.curatorName.text = curatorName
@@ -104,6 +108,7 @@ class HotPlaylistAdapter(
     class HotPlaylistViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         // Holds the TextView that will add each hot playlist to
         var title: TextView = view.playlist_title
+        var card: CardView = view.hot_playlist_card
         var cover: ImageView = view.playlist_cover
         var curatorName: TextView = view.curator_name
     }
@@ -112,9 +117,5 @@ class HotPlaylistAdapter(
         var title: TextView = view.album_recyclerview_title
         var recyclerView: RecyclerView = view.new_album_recyclerview
     }
-}
-
-interface OnItemClickListener {
-    fun onItemClick(playlistId: String, playlistTitle: String)
 }
 

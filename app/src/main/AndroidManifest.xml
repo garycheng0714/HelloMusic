@@ -11,6 +11,12 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             tools:replace="android:theme">
+        <activity
+                android:name=".AlbumActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".BasicActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,7 +27,6 @@
         <activity
                 android:name=".PlaylistActivity"
                 android:parentActivityName=".MainActivity">
-
         </activity>
     </application>
 

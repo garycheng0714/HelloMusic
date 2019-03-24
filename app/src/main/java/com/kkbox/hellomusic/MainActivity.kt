@@ -1,7 +1,6 @@
 package com.kkbox.hellomusic
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
@@ -10,7 +9,6 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.kkbox.hellomusic.adapter.HotPlaylistAdapter
-import com.kkbox.hellomusic.adapter.OnItemClickListener
 import com.kkbox.hellomusic.data.Album
 import com.kkbox.hellomusic.data.HotPlaylist
 import com.kkbox.openapideveloper.api.Api
@@ -49,24 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         accessToken = getAccessToken()
 
-        val hotPlaylistListener = object : OnItemClickListener {
-            override fun onItemClick(playlistId: String, playlistTitle: String) {
-                val startIntent  = Intent(context, PlaylistActivity::class.java).apply {
-                    putExtra(PlaylistActivity.HOT_PLAYLIST_ID, playlistId)
-                    putExtra(PlaylistActivity.HOT_PLAULIST_TITLE, playlistTitle)
-                    putExtra(ACCESS_TOKEN, accessToken)
-                }
-
-                startActivity(startIntent)
-            }
-        }
-
 //        val gridLayoutManager = GridLayoutManager(context, 2)
 
         hit_playlist_recyclerview.layoutManager = LinearLayoutManager(context)
 
         hit_playlist_recyclerview.adapter =
-                HotPlaylistAdapter(getData(), hotPlaylistListener, context)
+                HotPlaylistAdapter(getData(), accessToken, context)
     }
 
     private fun getData(): ArrayList<Any> {
