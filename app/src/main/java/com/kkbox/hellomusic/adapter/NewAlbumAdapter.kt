@@ -1,10 +1,14 @@
 package com.kkbox.hellomusic.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import com.kkbox.hellomusic.AlbumActivity
+import com.kkbox.hellomusic.MainActivity
 import com.squareup.picasso.Picasso
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Album
@@ -13,7 +17,7 @@ import kotlinx.android.synthetic.main.new_album_horizontal_list.view.*
 
 class NewAlbumAdapter(
     private val items: ArrayList<Album>,
-//    private val listener: OnItemClickListener,
+    private val accessToken: String,
     private val context: Context
 ): RecyclerView.Adapter<NewAlbumAdapter.NewAlbumViewHolder>() {
 
@@ -40,13 +44,17 @@ class NewAlbumAdapter(
         // set image
         Picasso.with(context).load(newAlbum.images[2].url).resize(400, 400).into(holder.cover)
 
-        val playlistName = newAlbum.name
-        val curatorName = newAlbum.artist.name
+        holder.title.text = newAlbum.name
+        holder.curatorName.text = newAlbum.artist.name
 
-//        holder.cover.setOnClickListener { listener.onItemClick(newAlbum.id, playlistName) }
+        holder.cover.setOnClickListener {
+            val startIntent  = Intent(context, AlbumActivity::class.java).apply {
+                putExtra(AlbumActivity.ALBUM_ID, newAlbum.id)
+                putExtra(MainActivity.ACCESS_TOKEN, accessToken)
+            }
 
-        holder.title.text = playlistName
-        holder.curatorName.text = curatorName
+            ContextCompat.startActivity(context, startIntent, null)
+        }
     }
 
     class NewAlbumViewHolder (view: View) : RecyclerView.ViewHolder(view) {
@@ -56,8 +64,4 @@ class NewAlbumAdapter(
         var curatorName: TextView = view.artist_name
     }
 }
-//
-//interface OnItemClickListener {
-//    fun onItemClick(playlistId: String, playlistTitle: String)
-//}
 
