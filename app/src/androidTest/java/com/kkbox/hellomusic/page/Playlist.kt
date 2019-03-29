@@ -11,14 +11,9 @@ import org.hamcrest.Matcher
 import com.kkbox.hellomusic.matcher.CustomMatcher.Companion.hasToolbarTitle
 import org.hamcrest.Matchers.not
 
-class Playlist {
+class Playlist: Basic() {
 
-    private val toolbar: Matcher<View> = withId(R.id.toolbar)
     private val playlistRecyclerView: Matcher<View> = withId(R.id.playlist_recyclerview)
-
-    fun checkHasTitle(expectedTitle: String) {
-        onView(toolbar).check(matches(hasToolbarTitle(expectedTitle)))
-    }
 
     fun checkNotDefaultSongNameAtPosition(index: Int) {
         onView(playlistRecyclerView).check(matches(not(atPosition(index, R.id.song_name, withText(R.string.song_name)))))
