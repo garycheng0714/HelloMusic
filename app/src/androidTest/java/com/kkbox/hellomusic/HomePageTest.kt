@@ -33,6 +33,11 @@ class HomePageTest {
     }
 
     @Test
+    fun show10Albums() {
+        Home().checkAlbumNumber(10, activityRule.activity)
+    }
+
+    @Test
     fun playlistHasPlaylistName() {
         Home().checkPlaylistTitle(1, "華語速爆新歌")
     }
