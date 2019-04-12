@@ -6,15 +6,18 @@ import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.kkbox.hellomusic.AlbumListActivity
 import com.kkbox.hellomusic.MainActivity
 import com.kkbox.hellomusic.PlaylistActivity
-import com.squareup.picasso.Picasso
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Album
 import com.kkbox.hellomusic.data.HotPlaylist
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.hot_playlist_item_card_view.view.*
 import kotlinx.android.synthetic.main.new_album_recycler.view.*
 
@@ -78,6 +81,14 @@ class HotPlaylistAdapter(
                 holder.recyclerView.adapter = NewAlbumAdapter(newAlbum, accessToken, context)
 
                 holder.title.text = context.resources.getText(R.string.albumRecyclerViewTitle)
+
+                holder.title.setOnClickListener{
+                    val startIntent = Intent(context, AlbumListActivity::class.java).apply{
+                        putExtra(MainActivity.ACCESS_TOKEN, accessToken)
+                    }
+
+                    startActivity(context, startIntent, null)
+                }
             }
 
             PLAYLIST_CARD -> {
