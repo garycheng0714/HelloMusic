@@ -1,11 +1,15 @@
+#!/usr/bin/env bash
 echo 'start UI test'
+echo $APPCENTER_OUTPUT_DIRECTORY
+echo $APPCENTER_SOURCE_DIRECTORY
 
 appcenter test run espresso \
     --app "d9369604-gmail.com/Hello-Music" \
-    --devices c9eaa83b --app-path pathToFile.apk  \
+    --devices c9eaa83b \
+    --app-path $APPCENTER_SOURCE_DIRECTORY/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk  \
     --test-series "espresso-tests" \
     --locale "en_US" \
-    --build-dir pathToEspressoBuildFolder \
+    --build-dir $APPCENTER_OUTPUT_DIRECTORY \
     --token $appCenterLoginApiToken
 
 
