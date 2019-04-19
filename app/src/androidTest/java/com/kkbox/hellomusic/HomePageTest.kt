@@ -8,6 +8,10 @@ import org.junit.Assert.*
 import org.junit.Rule
 import com.kkbox.hellomusic.page.Home
 import com.kkbox.hellomusic.page.Playlist
+import com.kkbox.hellomusic.rule.HelloMusicActivityRule
+import com.microsoft.appcenter.espresso.Factory
+import com.microsoft.appcenter.espresso.ReportHelper
+import org.junit.After
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -18,7 +22,15 @@ import com.kkbox.hellomusic.page.Playlist
 class HomePageTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    val activityRule = HelloMusicActivityRule(MainActivity::class.java)
+
+    @Rule @JvmField
+    var reportHelper: ReportHelper = Factory.getReportHelper()
+
+    @After
+    fun tearDown() {
+        reportHelper.label("Stopping App")
+    }
 
     @Test
     fun useAppContext() {
