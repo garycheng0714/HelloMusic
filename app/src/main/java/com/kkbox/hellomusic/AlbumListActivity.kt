@@ -3,7 +3,9 @@ package com.kkbox.hellomusic
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.Menu
 import com.google.gson.Gson
 import com.kkbox.hellomusic.adapter.NewAlbumAdapter
 import com.kkbox.hellomusic.data.Album
@@ -15,6 +17,7 @@ class AlbumListActivity: BasicActivity()  {
 
     val albumList: ArrayList<Album> = arrayListOf()
     var num:Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_album_list)
 
@@ -62,5 +65,12 @@ class AlbumListActivity: BasicActivity()  {
         }
 
         return albumList
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = resources.getString(R.string.albumRecyclerViewTitle)
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
