@@ -1,5 +1,6 @@
 package com.kkbox.hellomusic.viewAction
 
+import android.app.Activity
 import android.support.test.espresso.UiController
 import android.support.test.espresso.ViewAction
 import android.support.test.espresso.action.GeneralClickAction
@@ -11,6 +12,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.view.InputDevice
 import android.view.MotionEvent
 import android.view.View
+import android.widget.TextView
 import org.hamcrest.Matcher
 
 class CustomViewAction {
@@ -40,6 +42,24 @@ class CustomViewAction {
                     val targetView = view.findViewById<View>(viewId)
 
                     clickAction.perform(uiController, targetView)
+                }
+            }
+        }
+
+        fun getText(activity: Activity, viewId: Int, stringHolder: ArrayList<String>): ViewAction {
+            return object : ViewAction {
+                override fun getConstraints(): Matcher<View> {
+                    return isAssignableFrom(TextView::class.java)
+                }
+
+                override fun getDescription(): String {
+                    return "Get text from TextView"
+                }
+
+                override fun perform(uiController: UiController, view: View) {
+                    val textView = activity.findViewById<TextView>(viewId)
+
+                    stringHolder.add(textView.text.toString())
                 }
             }
         }

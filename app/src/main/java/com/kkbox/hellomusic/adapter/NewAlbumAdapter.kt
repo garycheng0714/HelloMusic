@@ -50,6 +50,7 @@ class NewAlbumAdapter(
         holder.cover.setOnClickListener {
             val startIntent  = Intent(context, AlbumActivity::class.java).apply {
                 putExtra(AlbumActivity.ALBUM_ID, newAlbum.id)
+                putExtra(AlbumActivity.ALBUM_NAME, newAlbum.name)
                 putExtra(MainActivity.ACCESS_TOKEN, accessToken)
             }
 

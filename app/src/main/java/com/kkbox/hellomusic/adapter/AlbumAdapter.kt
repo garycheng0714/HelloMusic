@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.gson.Gson
 import com.kkbox.hellomusic.R
 import com.kkbox.hellomusic.data.Album
 import com.kkbox.hellomusic.data.Track
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.album_cover.view.*
-import kotlinx.android.synthetic.main.album_info.view.*
+import kotlinx.android.synthetic.main.album_song.view.*
 
 class AlbumAdapter(
     private var data: ArrayList<Any>,
@@ -34,7 +33,7 @@ class AlbumAdapter(
             TRACK -> {
                 return TrackViewHolder(
                     LayoutInflater.from(context).inflate(
-                        R.layout.album_info,
+                        R.layout.album_song,
                         parent,
                         false
                     )

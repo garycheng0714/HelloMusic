@@ -2,6 +2,8 @@ package com.kkbox.hellomusic
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import com.google.gson.Gson
 import com.kkbox.hellomusic.adapter.AlbumAdapter
 import com.kkbox.hellomusic.data.Album
@@ -13,6 +15,7 @@ class AlbumActivity : BasicActivity() {
 
     companion object {
         const val ALBUM_ID = "album_id"
+        const val ALBUM_NAME = "album_name"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,5 +50,12 @@ class AlbumActivity : BasicActivity() {
         }
 
         return albumData
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = intent.getStringExtra(ALBUM_NAME)
+
+        return super.onCreateOptionsMenu(menu)
     }
 }
