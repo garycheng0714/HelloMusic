@@ -20,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    task copyAndroidTestApk(type: Copy) {
+        from 'build/outputs/apk/androidTest/debug/app-debug-androidTest.apk'
+        into 'build/outputs/apk/debug'
+    }
 }
 
 buildscript {
