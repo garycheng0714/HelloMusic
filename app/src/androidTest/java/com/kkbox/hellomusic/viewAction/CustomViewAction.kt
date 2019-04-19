@@ -46,7 +46,7 @@ class CustomViewAction {
             }
         }
 
-        fun getText(activity: Activity, viewId: Int, stringHolder: ArrayList<String>): ViewAction {
+        fun getText(viewId: Int, stringHolder: ArrayList<String>): ViewAction {
             return object : ViewAction {
                 override fun getConstraints(): Matcher<View> {
                     return isAssignableFrom(TextView::class.java)
@@ -57,7 +57,7 @@ class CustomViewAction {
                 }
 
                 override fun perform(uiController: UiController, view: View) {
-                    val textView = activity.findViewById<TextView>(viewId)
+                    val textView = view.findViewById<TextView>(viewId)
 
                     stringHolder.add(textView.text.toString())
                 }
