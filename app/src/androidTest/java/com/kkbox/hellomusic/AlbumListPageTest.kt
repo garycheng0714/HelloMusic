@@ -16,7 +16,7 @@ class AlbumListPageTest {
     @get:Rule
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
-    @Rule
+    @Rule @JvmField
     var reportHelper: ReportHelper = Factory.getReportHelper()
 
     @After
