@@ -22,9 +22,19 @@ android {
     }
 
     task copyAndroidTestApk(type: Copy) {
+//        assembleDebugAndroidTest.execute()
         from 'build/outputs/apk/androidTest/debug/app-debug-androidTest.apk'
         into 'build/outputs/apk/debug'
     }
+
+//    assemble.doLast {
+//        assembleDebugAndroidTest.execute()
+//
+//        copy {
+//            from 'build/outputs/apk/androidTest/debug/app-debug-androidTest.apk'
+//            into 'build/outputs/apk/debug'
+//        }
+//    }
 }
 
 buildscript {

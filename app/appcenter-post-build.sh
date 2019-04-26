@@ -3,9 +3,12 @@ echo 'start UI test'
 echo $APPCENTER_OUTPUT_DIRECTORY
 echo $APPCENTER_SOURCE_DIRECTORY
 
-./gradlew app:copyAndroidTestApk
+#./gradlew app:copyAndroidTestApk
 
+ls $APPCENTER_SOURCE_DIRECTORY
 ls $APPCENTER_OUTPUT_DIRECTORY
+
+/Users/vsts/agent/2.150.0/work/1/s/gradlew assembleAndroidTest
 
 #cp $APPCENTER_SOURCE_DIRECTORY/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk $APPCENTER_OUTPUT_DIRECTORY
 
