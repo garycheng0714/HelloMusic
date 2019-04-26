@@ -22,7 +22,7 @@ appcenter test run espresso \
     --app-path $APPCENTER_OUTPUT_DIRECTORY/app-debug-androidTest.apk  \
     --test-series "espresso-tests" \
     --locale "en_US" \
-    --build-dir $APPCENTER_OUTPUT_DIRECTORY \
+    --build-dir $APPCENTER_OUTPUT_DIRECTORY/app-debug.apk \
     --token $appCenterLoginApiToken
 
 
