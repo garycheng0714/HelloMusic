@@ -3,14 +3,14 @@ echo 'start UI test'
 echo $APPCENTER_OUTPUT_DIRECTORY
 echo $APPCENTER_SOURCE_DIRECTORY
 
-#./gradlew app:copyAndroidTestApk
-
+echo 'ls source folder'
 ls $APPCENTER_SOURCE_DIRECTORY
+
+echo 'ls output folder'
 ls $APPCENTER_OUTPUT_DIRECTORY
 
 /Users/vsts/agent/2.150.0/work/1/s/gradlew assembleAndroidTest
-
-#cp $APPCENTER_SOURCE_DIRECTORY/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk $APPCENTER_OUTPUT_DIRECTORY
+/Users/vsts/agent/2.150.0/work/1/s/gradlew copyAndroidTestApk
 
 appcenter test run espresso \
     --app "d9369604-gmail.com/Hello-Music" \
