@@ -14,6 +14,12 @@ class AlbumListPageTest {
     @Test
     fun openAlbumList() {
         Home().openNewAlbumList()
-        AlbumList().checkTitleDisplayed()
+        AlbumList().checkNewAlbumTitleDisplayed()
+    }
+
+    @Test
+    fun checkAlbumContent() {
+        Home().openNewAlbumList()
+        AlbumList().checkAlbumContentDisplayed()
     }
 }
