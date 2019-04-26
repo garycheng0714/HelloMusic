@@ -19,7 +19,7 @@ ls $APPCENTER_OUTPUT_DIRECTORY
 appcenter test run espresso \
     --app "d9369604-gmail.com/Hello-Music" \
     --devices c9eaa83b \
-    --app-path $APPCENTER_OUTPUT_DIRECTORY  \
+    --app-path $APPCENTER_OUTPUT_DIRECTORY/app-debug.apk \
     --test-series "espresso-tests" \
     --locale "en_US" \
     --build-dir $APPCENTER_OUTPUT_DIRECTORY \
