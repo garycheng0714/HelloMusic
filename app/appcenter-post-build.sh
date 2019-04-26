@@ -11,7 +11,7 @@ ls $APPCENTER_OUTPUT_DIRECTORY
 
 /Users/vsts/agent/2.150.0/work/1/s/gradlew assembleAndroidTest
 
-cp $APPCENTER_SOURCE_DIRECTORY/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk $APPCENTER_OUTPUT_DIRECTORY
+cp $APPCENTER_SOURCE_DIRECTORY/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk $APPCENTER_OUTPUT_DIRECTORY
 
 appcenter test run espresso \
     --app "d9369604-gmail.com/Hello-Music" \
